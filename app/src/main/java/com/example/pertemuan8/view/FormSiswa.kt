@@ -3,15 +3,17 @@ package com.example.pertemuan8.view
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -38,20 +40,17 @@ fun FormSiswa(
     pilihanJK: List<String>,
     onSubmitButtonClicked: (MutableList<String>) -> Unit,
     modifier: Modifier = Modifier
-) {
+){
     //edit 2 : tambahkan 4 variable dibawah ini
-    var txtNama by rememberSaveable { mutableStateOf("") }
-    var txtAlamat by remember { mutableStateOf("") }
-    var txtGender by remember { mutableStateOf("") }
-    val listData: MutableList<String> = mutableListOf(txtNama, txtGender, txtAlamat)
+    var txtNama by rememberSaveable { mutableStateOf("")}
+    var txtAlamat by remember { mutableStateOf("")}
+    var txtGender by remember { mutableStateOf("")}
+    val listData: MutableList<String> = mutableListOf(txtNama,txtGender,txtAlamat)
 
-    Scaffold(
-        modifier = Modifier,
-        {
-            TopAppBar(
-                title = { Text(stringResource(id = R.string.app_name), color = Color.White) },
-                colors = TopAppBarDefaults.mediumTopAppBarColors(colorResource(id = R.color.purple_500))
-            )
+    Scaffold(modifier = Modifier,
+        { TopAppBar(title = { Text(stringResource(id = R.string.app_name), color = Color.White)},
+            colors = TopAppBarDefaults.mediumTopAppBarColors(colorResource(id = R.color.purple_500))
+        )
         }) { isiRuang ->
 
         Column(
@@ -64,7 +63,7 @@ fun FormSiswa(
                 value = txtNama,
                 singleLine = true,
                 shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.width(250.dp).padding(top = 20.dp),
+                modifier = Modifier.width(250.dp).padding(top=20.dp),
                 label = { Text(text = "Nama Lengkap") },
                 onValueChange = {
                     txtNama = it
@@ -79,13 +78,12 @@ fun FormSiswa(
             )
             Row {
                 pilihanJK.forEach { item ->
-                    Row(
-                        modifier = Modifier.selectable(
-                            selected = txtGender == item,
-                            onClick = {
-                                txtGender = item
-                            }
-                        ),
+                    Row(modifier = Modifier.selectable(
+                        selected = txtGender == item,
+                        onClick = {
+                            txtGender = item
+                        }
+                    ),
                         verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(
                             selected = txtGender == item,
@@ -97,6 +95,23 @@ fun FormSiswa(
                     }
                 }
             }
+            HorizontalDivider(
+                modifier = Modifier
+                    .padding(5.dp)
+                    .width(250.dp),
+                thickness = dimensionResource(R.dimen.thickness_divider),
+                color = Color.Blue
+            )
+            OutlinedTextField(
+                value = txtAlamat,
+                singleLine = true,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.width(250.dp),
+                label = { Text(text = "Alamat Lengkap") },
+                onValueChange = {
+                    txtAlamat = it
+                }
+            )
         }
     }
 }
