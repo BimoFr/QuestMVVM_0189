@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.pertemuan8.DataJK.JenisK
 import com.example.pertemuan8.view.FormSiswa
+import com.example.pertemuan8.view.TampilSiswa
 import com.example.pertemuan8.viewmodel.SiswaViewModel
 
 enum class Navigasi {
@@ -28,17 +29,16 @@ fun SiswaApp(
     modifier: Modifier,
     viewModel: SiswaViewModel = viewModel(),
     navController : NavHostController = rememberNavController()
-) {
-    Scaffold { isiRuang ->
+){
+    Scaffold { isiRuang->
         //edit 2 : tambahkan variabel uiState
         val uiState = viewModel.statusUI.collectAsState()
         NavHost(
             navController = navController,
             startDestination = Navigasi.Formulir.name,
 
-            modifier = Modifier.padding(isiRuang)
-        ) {
-            composable(route = Navigasi.Formulir.name) {
+            modifier = Modifier.padding(isiRuang)){
+            composable(route = Navigasi.Formulir.name){
                 //edit 3 : tambahkan variable konteks
                 val konteks = LocalContext.current
                 FormSiswa(
@@ -50,6 +50,18 @@ fun SiswaApp(
                     }
                 )
             }
+            composable(route = Navigasi.Detail.name){
+                TampilSiswa(
+                    //edit 5 : parameter statusUiSiswa
+                    statusUiSiswa = uiState.value,
+                    onBackButtonClicked = { cancelAndBackToFormulir(navController) }
+                )
+            }
         }
     }
+}
+private fun cancelAndBackToFormulir(
+    navController: NavHostController
+) {
+    navController.popBackStack(Navigasi.Formulir.name, inclusive = false)
 }
